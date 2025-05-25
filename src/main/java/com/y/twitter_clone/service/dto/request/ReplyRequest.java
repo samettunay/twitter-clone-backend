@@ -1,4 +1,4 @@
-package com.y.twitter_clone.dto.request;
+package com.y.twitter_clone.service.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TweetRequest {
+public class ReplyRequest {
     
     @NotBlank(message = "Content is required")
-    @Size(max = 280, message = "Tweet content cannot exceed 280 characters")
+    @Size(max = 280, message = "Reply content cannot exceed 280 characters")
     private String content;
 } 

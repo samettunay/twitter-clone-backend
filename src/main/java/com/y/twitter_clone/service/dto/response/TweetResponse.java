@@ -1,4 +1,4 @@
-package com.y.twitter_clone.dto.response;
+package com.y.twitter_clone.service.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,9 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowResponse {
+public class TweetResponse {
     private UUID id;
-    private UserResponse follower;
-    private UserResponse following;
+    private UserResponse user;
+    private String content;
+    private int likeCount;
+    private int retweetCount;
+    private int replyCount;
     private LocalDateTime createdAt;
 } 
