@@ -11,17 +11,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {
+  @UniqueConstraint(columnNames = {"user_id", "tweet_id"})
+})
 public class Like {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Tweet tweet;
 
-  private LocalDateTime likedAt = LocalDateTime.now();
+  private LocalDateTime likedAt;
+
+  @PrePersist
+  public void onCreate() {
+      this.likedAt = LocalDateTime.now();
+  }
 }

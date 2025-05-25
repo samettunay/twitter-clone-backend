@@ -13,16 +13,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "tweets")
 public class Tweet {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   @Column(nullable = false, length = 280)
   private String content;
 
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private int likeCount = 0;
+  private int retweetCount = 0;
+  private int replyCount = 0;
+
+  private LocalDateTime createdAt;
+
+  @PrePersist
+  public void onCreate() {
+      this.createdAt = LocalDateTime.now();
+  }
 }

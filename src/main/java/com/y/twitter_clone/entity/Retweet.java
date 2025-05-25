@@ -13,15 +13,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "retweets")
 public class Retweet {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   private Tweet tweet;
 
-  private LocalDateTime retweetedAt = LocalDateTime.now();
+  private LocalDateTime retweetedAt;
+
+  @PrePersist
+  public void onCreate() {
+      this.retweetedAt = LocalDateTime.now();
+  }
 }
