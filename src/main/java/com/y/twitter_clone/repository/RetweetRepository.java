@@ -1,5 +1,6 @@
 package com.y.twitter_clone.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,4 +13,5 @@ import com.y.twitter_clone.entity.User;
 public interface RetweetRepository extends JpaRepository<Retweet, UUID> {
     boolean existsByUserAndTweet(User user, Tweet tweet);
     Optional<Retweet> findByUserAndTweet(User user, Tweet tweet);
+    List<Retweet> findByUser(User user);
 }
