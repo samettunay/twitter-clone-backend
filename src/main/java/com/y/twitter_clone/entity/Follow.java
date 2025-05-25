@@ -1,11 +1,13 @@
 package com.y.twitter_clone.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Data
@@ -16,21 +18,23 @@ import lombok.NoArgsConstructor;
 })
 public class Follow {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @Id
+  @GeneratedValue
+  @UuidGenerator
+  private UUID id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "follower_id")
+  @JoinColumn(name = "follower_id", nullable = false)
   private User follower;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "following_id")
+  @JoinColumn(name = "following_id", nullable = false)
   private User following;
 
-  private LocalDateTime followedAt;
+  private LocalDateTime createdAt;
 
   @PrePersist
   public void onCreate() {
-      this.followedAt = LocalDateTime.now();
+      this.createdAt = LocalDateTime.now();
   }
 }
