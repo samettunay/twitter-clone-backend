@@ -1,31 +1,42 @@
 package com.y.twitter_clone.service.mapper;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
 import com.y.twitter_clone.entity.Tweet;
 import com.y.twitter_clone.service.dto.request.TweetRequest;
 import com.y.twitter_clone.service.dto.response.TweetResponse;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import lombok.RequiredArgsConstructor;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
-public interface TweetMapper {
+@Component
+@RequiredArgsConstructor
+public class TweetMapper {
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "likeCount", constant = "0")
-    @Mapping(target = "retweetCount", constant = "0")
-    @Mapping(target = "replyCount", constant = "0")
-    Tweet toEntity(TweetRequest request);
-    
-    TweetResponse toResponse(Tweet tweet);
-    
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "likeCount", ignore = true)
-    @Mapping(target = "retweetCount", ignore = true)
-    @Mapping(target = "replyCount", ignore = true)
-    void updateEntityFromRequest(TweetRequest request, @MappingTarget Tweet tweet);
+    private final ModelMapper modelMapper;
+
+    public Tweet toEntity(TweetRequest request) {
+        Tweet tweet = modelMapper.map(request, Tweet.class);
+        tweet.setId(null);
+        tweet.setUser(null);
+        tweet.setCreatedAt(null);
+        tweet.setLikeCount(0);
+        tweet.setRetweetCount(0);
+        tweet.setReplyCount(0);
+        return tweet;
+    }
+
+    public TweetResponse toResponse(Tweet tweet) {
+        return modelMapper.map(tweet, TweetResponse.class);
+    }
+
+    public void updateEntityFromRequest(TweetRequest request, Tweet tweet) {
+        modelMapper.map(request, tweet);
+        tweet.setId(null);
+        tweet.setUser(null);
+        tweet.setCreatedAt(null);
+        tweet.setLikeCount(0);
+        tweet.setRetweetCount(0);
+        tweet.setReplyCount(0);
+    }
 } 

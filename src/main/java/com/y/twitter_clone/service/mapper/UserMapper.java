@@ -1,28 +1,43 @@
 package com.y.twitter_clone.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import com.y.twitter_clone.entity.User;
 import com.y.twitter_clone.service.dto.request.RegisterRequest;
 import com.y.twitter_clone.service.dto.request.UserRequest;
 import com.y.twitter_clone.service.dto.response.UserResponse;
 
-@Mapper(componentModel = "spring")
-public interface UserMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "password", ignore = true)
-    User toEntity(UserRequest request);
+import lombok.RequiredArgsConstructor;
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "password", ignore = true)
-    User toEntity(RegisterRequest request);
+@Component
+@RequiredArgsConstructor
+public class UserMapper {
+    
+    private final ModelMapper modelMapper;
 
-    @Mapping(target = "password", ignore = true)
-    void updateEntity(@MappingTarget User user, UserRequest request);
+    public User toEntity(UserRequest request) {
+        User user = modelMapper.map(request, User.class);
+        user.setId(null);
+        user.setCreatedAt(null);
+        user.setPassword(null);
+        return user;
+    }
 
-    UserResponse toResponse(User user);
+    public User toEntity(RegisterRequest request) {
+        User user = modelMapper.map(request, User.class);
+        user.setId(null);
+        user.setCreatedAt(null);
+        user.setPassword(null);
+        return user;
+    }
+
+    public void updateEntity(User user, UserRequest request) {
+        modelMapper.map(request, user);
+        user.setPassword(null);
+    }
+
+    public UserResponse toResponse(User user) {
+        return modelMapper.map(user, UserResponse.class);
+    }
 } 

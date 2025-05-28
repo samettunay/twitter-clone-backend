@@ -14,7 +14,7 @@ import org.hibernate.annotations.UuidGenerator;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "follows", uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"follower_id", "following_id"})
+    @UniqueConstraint(columnNames = { "follower_id", "following_id" })
 })
 public class Follow {
 
@@ -35,6 +35,6 @@ public class Follow {
 
   @PrePersist
   public void onCreate() {
-      this.createdAt = LocalDateTime.now();
+    this.createdAt = LocalDateTime.now();
   }
 }

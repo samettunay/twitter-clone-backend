@@ -21,25 +21,25 @@ import org.hibernate.annotations.UuidGenerator;
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue
-    @UuidGenerator
-    private UUID id;
+  @Id
+  @GeneratedValue
+  @UuidGenerator
+  private UUID id;
 
-    @Column(nullable = false, unique = true) 
-    private String username;
-    @Column(nullable = false) 
-    private String password;
-    @Column(nullable = false, unique = true) 
-    private String email;
+  @Column(nullable = false, unique = true)
+  private String username;
+  @Column(nullable = false)
+  private String password;
+  @Column(nullable = false, unique = true)
+  private String email;
 
-    private String bio;
-    private String profileImageUrl;
+  private String bio;
+  private String profileImageUrl;
 
-    private LocalDateTime createdAt;
+  private LocalDateTime createdAt;
 
-    @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  public void onCreate() {
+    this.createdAt = LocalDateTime.now();
+  }
 }

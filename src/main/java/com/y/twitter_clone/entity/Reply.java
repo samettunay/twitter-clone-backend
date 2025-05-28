@@ -21,21 +21,21 @@ public class Reply {
     @UuidGenerator
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tweet_id", nullable = false)
-    private Tweet tweet;
+  private Tweet tweet;
 
-    @Column(nullable = false, length = 280)
-    private String content;
+  @Column(nullable = false, length = 280)
+  private String content;
 
     private LocalDateTime createdAt;
 
-    @PrePersist
-    public void onCreate() {
+  @PrePersist
+  public void onCreate() {
         this.createdAt = LocalDateTime.now();
-    }
+  }
 }

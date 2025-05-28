@@ -2,18 +2,28 @@ package com.y.twitter_clone.service.mapper;
 
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
 import com.y.twitter_clone.entity.Follow;
 import com.y.twitter_clone.service.dto.response.FollowResponse;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import lombok.RequiredArgsConstructor;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class})
-public interface FollowMapper {
+@Component
+@RequiredArgsConstructor
+public class FollowMapper {
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    Follow toEntity(UUID followerId, UUID followingId);
-    
-    FollowResponse toResponse(Follow follow);
+    private final ModelMapper modelMapper;
+
+    public Follow toEntity(UUID followerId, UUID followingId) {
+        Follow follow = new Follow();
+        follow.setId(null);
+        follow.setCreatedAt(null);
+        return follow;
+    }
+
+    public FollowResponse toResponse(Follow follow) {
+        return modelMapper.map(follow, FollowResponse.class);
+    }
 } 

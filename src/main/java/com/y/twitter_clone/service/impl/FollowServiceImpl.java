@@ -1,6 +1,8 @@
 package com.y.twitter_clone.service.impl;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +12,8 @@ import com.y.twitter_clone.entity.User;
 import com.y.twitter_clone.repository.FollowRepository;
 import com.y.twitter_clone.repository.UserRepository;
 import com.y.twitter_clone.service.FollowService;
+import com.y.twitter_clone.service.dto.response.UserResponse;
+import com.y.twitter_clone.service.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +24,7 @@ public class FollowServiceImpl implements FollowService {
 
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
     public void follow(UUID followerId, UUID followingId) {
@@ -60,5 +65,25 @@ public class FollowServiceImpl implements FollowService {
             .orElseThrow(() -> new RuntimeException("Following user not found"));
 
         return followRepository.existsByFollowerAndFollowing(follower, following);
+    }
+
+    @Override
+    public List<UserResponse> getFollowers(UUID userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return followRepository.findByFollowing(user).stream()
+            .map(Follow::getFollower)
+            .map(userMapper::toResponse)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserResponse> getFollowing(UUID userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return followRepository.findByFollower(user).stream()
+            .map(Follow::getFollowing)
+            .map(userMapper::toResponse)
+            .collect(Collectors.toList());
     }
 } 

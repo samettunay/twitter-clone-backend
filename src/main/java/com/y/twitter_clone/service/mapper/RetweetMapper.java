@@ -2,18 +2,28 @@ package com.y.twitter_clone.service.mapper;
 
 import java.util.UUID;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
 import com.y.twitter_clone.entity.Retweet;
 import com.y.twitter_clone.service.dto.response.RetweetResponse;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import lombok.RequiredArgsConstructor;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, TweetMapper.class})
-public interface RetweetMapper {
+@Component
+@RequiredArgsConstructor
+public class RetweetMapper {
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    Retweet toEntity(UUID userId, UUID tweetId);
-    
-    RetweetResponse toResponse(Retweet retweet);
+    private final ModelMapper modelMapper;
+
+    public Retweet toEntity(UUID userId, UUID tweetId) {
+        Retweet retweet = new Retweet();
+        retweet.setId(null);
+        retweet.setCreatedAt(null);
+        return retweet;
+    }
+
+    public RetweetResponse toResponse(Retweet retweet) {
+        return modelMapper.map(retweet, RetweetResponse.class);
+    }
 } 

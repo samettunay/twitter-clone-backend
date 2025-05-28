@@ -21,18 +21,18 @@ public class Like {
     @UuidGenerator
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+  private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tweet_id", nullable = false)
-    private Tweet tweet;
+  private Tweet tweet;
 
     private LocalDateTime createdAt;
 
-    @PrePersist
-    public void onCreate() {
+  @PrePersist
+  public void onCreate() {
         this.createdAt = LocalDateTime.now();
-    }
+  }
 }

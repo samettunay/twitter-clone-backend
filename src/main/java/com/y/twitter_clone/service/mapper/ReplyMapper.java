@@ -1,27 +1,38 @@
 package com.y.twitter_clone.service.mapper;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
+
 import com.y.twitter_clone.entity.Reply;
 import com.y.twitter_clone.service.dto.request.ReplyRequest;
 import com.y.twitter_clone.service.dto.response.ReplyResponse;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import lombok.RequiredArgsConstructor;
 
-@Mapper(componentModel = "spring", uses = {UserMapper.class, TweetMapper.class})
-public interface ReplyMapper {
+@Component
+@RequiredArgsConstructor
+public class ReplyMapper {
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "tweet", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    Reply toEntity(ReplyRequest request);
-    
-    ReplyResponse toResponse(Reply reply);
-    
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "tweet", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    void updateEntityFromRequest(ReplyRequest request, @MappingTarget Reply reply);
+    private final ModelMapper modelMapper;
+
+    public Reply toEntity(ReplyRequest request) {
+        Reply reply = modelMapper.map(request, Reply.class);
+        reply.setId(null);
+        reply.setUser(null);
+        reply.setTweet(null);
+        reply.setCreatedAt(null);
+        return reply;
+    }
+
+    public ReplyResponse toResponse(Reply reply) {
+        return modelMapper.map(reply, ReplyResponse.class);
+    }
+
+    public void updateEntityFromRequest(ReplyRequest request, Reply reply) {
+        modelMapper.map(request, reply);
+        reply.setId(null);
+        reply.setUser(null);
+        reply.setTweet(null);
+        reply.setCreatedAt(null);
+    }
 } 

@@ -1,6 +1,5 @@
 package com.y.twitter_clone.service.impl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
